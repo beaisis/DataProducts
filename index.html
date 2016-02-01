@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Solar Installs in California</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Solar Installs in California">
+  <meta name="author" content="Brian Altman">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Solar Installs in California</h1>
+    <h2></h2>
+    <p>Brian Altman<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h3>Introduction</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>The California Solar Statistics <a href="https://www.californiasolarstatistics.ca.gov">https://www.californiasolarstatistics.ca.gov</a>), is a California state agency that provides to the general public data summaries on a variety of solar initiatives. </p>
+
+<p>This study looked at the interconnected solar installation data set, available here (<a href="https://www.californiasolarstatistics.ca.gov/data_downloads/">https://www.californiasolarstatistics.ca.gov/data_downloads/</a>) that contains all interconnected roof top projects, with a single row for each interconnection.  </p>
+
+<p>The goal of this study is to evetnually provide a tool that can be used to identify effective policies and installation approaches, across California regions,  to improve the realization of solar energy opportunities.</p>
+
+<p>The objectives of this Phase I application are:</p>
+
+<ul>
+<li><p>1)  Familarization with the data set and identification of initial trends in time.</p></li>
+<li><p>2)  Compare installations across regions on California.  Solar policies and incentives are different across California. Are there differences between regions?  </p></li>
+<li><p>3)  Set a framework for future development of the tool.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Solar Installs Application</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>In this application, </p>
+
+<ul>
+<li><p>1) The interconnected solar installation data set is read in</p></li>
+<li><p>2) Some minor data cleanup is performed</p></li>
+<li><p>3) Data is summarized by California County</p></li>
+<li><p>4) A Shiny app presents the data , allowing the user to select a California county of interest and observe, for that county, the number of solar projects in a Quarter, the amount of MegaWatts delivered by those projects, the average time of delivery of a solar project and the installers responsible for the projects.</p></li>
+<li><p>5) The user can also specify residential, commercial or both sectors.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h3>Example Use of Data</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>Following is the amount of Kilowatts delivered by solar projects by county for the top 8 counties in California. Note Southern California is much higher than other counties. To be answered with future studies, is this a result of more irradiance, higher energy needs (for example, pools) and/or policies in the reqion.</p>
+
+<pre><code class="r">SolarData &lt;- read.csv(&quot;C:/2015 R Folder/Solar/NEM_CurrentlyInterconnectedDataset_2015-10-31 - Brief and Narrow.csv&quot;,header = TRUE)
+SolarData$System.Size.DC       &lt;- as.numeric(SolarData$System.Size.DC)
+sd &lt;- data.frame(aggregate(SolarData$System.Size.DC ,by=list(SolarData$Service.County), FUN=sum, na.rm = TRUE))
+colnames(sd)&lt;- c(&#39;County&#39;, &#39;KiloWatts&#39;);sd &lt;- sd[order (sd$KiloWatts,decreasing = TRUE), ];sd[1:10,]
+</code></pre>
+
+<pre><code>##            County  KiloWatts
+## 36      SAN DIEGO 77452518.2
+## 28         ORANGE  3331354.5
+## 17    Los Angeles   316175.0
+## 31      Riverside   272582.7
+## 8          Fresno   190664.9
+## 34 San Bernardino   188613.1
+## 42    Santa Clara   183582.1
+## 13           Kern   163992.1
+## 27         Orange   156087.9
+## 6    Contra Costa   149127.3
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h3>Future Work</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>The next steps for the application:</p>
+
+<ul>
+<li><p>1) Merge in population data for each country so that the data can be normalized based on population across regions.  A better estimate of solar project penetration would then be available.</p></li>
+<li><p>2) Merge in solar irradiance data. Each county has different weather patterns and therefore different amount of available solar energy.</p></li>
+<li><p>3) Bring in data regarding policies regarding rebates and other incentives for each reqion.</p></li>
+<li><p>4) Factor in consumer behavior and demographics. For example, there are probably more home pools in Southern California which may increase the demand for cheaper energy.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Application References</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The current version of the application is here (<a href="http://www.cnn.com">http://www.cnn.com</a>)</p>
+
+<p>Supporting code and documentation for the application is on gitHub</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Introduction'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Solar Installs Application'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Example Use of Data'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Future Work'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Application References'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='NA'>
+         6
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
