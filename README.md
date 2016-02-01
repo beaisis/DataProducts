@@ -11,7 +11,7 @@ The user can specify industrial or commerical or both as a filter.
 
 The current version of the application is here (http://www.cnn.com)
 
-Supporting code and documentation for the application is at gitHub
+Supporting code and documentation for the application is at gitHub (https://github.com/beaisis/DataProducts)
 
 A supporting brief presentation is found here.
 
